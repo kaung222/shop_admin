@@ -1,5 +1,7 @@
 "use client";
+
 import { redirect } from "next/navigation";
+
 const Page = () => {
   const access_token = true;
   // typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
