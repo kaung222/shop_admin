@@ -5,7 +5,7 @@ import AdminTable from "@/components/users/AdminTable";
 import UserFilterbar from "@/components/users/UserFilterBar";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
-const page = () => {
+const Page = () => {
   const { getQuery } = useSetUrlQuery();
   const page = getQuery("page");
   const sort = getQuery("sort");
@@ -24,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
