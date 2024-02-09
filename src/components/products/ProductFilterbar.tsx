@@ -58,8 +58,8 @@ const ProductFilterbar = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="asc">Newest to oldest</SelectItem>
-              <SelectItem value="desc">Oldest to newest</SelectItem>
+              <SelectItem value="desc">Newest to oldest</SelectItem>
+              <SelectItem value="asc">Oldest to newest</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

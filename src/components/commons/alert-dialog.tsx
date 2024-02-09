@@ -11,24 +11,27 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-
-export function AlertDialogDemo() {
+type AlertProps = {
+  // id: string;
+  description: string;
+  title: string;
+  children: React.ReactNode;
+  onConfirm: () => void;
+};
+export function ConfirmDialog(props: AlertProps) {
+  const { description, title, onConfirm, children } = props;
+  // const handleDelete = () => onConfirm();
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="ghost">Delete</Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={onConfirm}>Confirm</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

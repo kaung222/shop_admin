@@ -1,98 +1,105 @@
 "use client";
-import { CreateProductProps } from "@/types/productRes";
-import { createProductValidator } from "@/validators/create_product.validator";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Link from "next/link";
+import { EditProductSchema } from "@/validators/prodcut-validators";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Input } from "../ui/input";
+import { z } from "zod";
+import { Form } from "../ui/form";
 import { Button } from "../ui/button";
+import FormInput from "../commons/FormInput";
+import FormSelect from "../commons/FormSelect";
+import { categories } from "@/data/category.data";
+import { Product } from "@/types/product";
+import { useUpdateProduct } from "@/api/product/useUpdateProduct";
+import { toast } from "sonner";
+import Link from "next/link";
 
-const EditProductForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(createProductValidator),
+export default function EditProduct({ product }: { product: Product }) {
+  const form = useForm<z.infer<typeof EditProductSchema>>({
+    resolver: zodResolver(EditProductSchema),
+    defaultValues: {
+      title: product?.title,
+      description: product?.description,
+      category: product?.category,
+      price: product?.price.toString(),
+      discountPercentage: product?.discountPercentage.toString(),
+      images: undefined,
+    },
   });
-  const createProduct = (data: CreateProductProps) => {
-    console.log(data);
-  };
-  return (
-    <div className="p-3 md:p-5">
-      <div className="">
-        <h3 className=" font-bold text-xl my-5">Create Product Page </h3>
-        <form
+  const { mutate, error } = useUpdateProduct();
+  function onSubmit(values: z.infer<typeof EditProductSchema>) {
+    mutate(
+      { id: product.id, data: values },
+      {
+        onSuccess() {
+          toast.success("Update product successfully");
+        },
+        onError() {
           //@ts-expect-error
-          onSubmit={handleSubmit(createProduct)}
-          className=" grid grid-cols-2 gap-5"
+          toast.error(error.response.data.message);
+        },
+      }
+    );
+  }
+  return (
+    <div className="">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" grid grid-cols-2 gap-5 p-5"
         >
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <label htmlFor="email">Email</label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <label htmlFor="email">Email</label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <label htmlFor="email">Email</label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <label htmlFor="email">Email</label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
-          {/* <Input
+          <FormInput
+            placeholder="Title"
+            form={form}
+            type="text"
+            name="title"
+            label="Title"
+            defaultValue={product?.title}
+          />
+          <FormInput
+            type="text"
+            placeholder="Description"
+            form={form}
             name="description"
-            id="description"
-            register={register}
-            type="text"
-            placeholder="Product description"
-            error={errors.description?.message}
+            label="Description (optional)"
+            defaultValue={product?.description}
           />
-          <Input
+          <FormSelect
+            form={form}
             name="category"
-            id="category"
-            register={register}
-            type="text"
-            placeholder="Product category"
-            error={errors.category?.message}
+            options={categories}
+            label="Category"
+            placeholder="All Categories"
+            defaultValue={product?.category}
           />
-          <Input
-            name="price"
-            id="price"
-            register={register}
-            type="text"
-            placeholder="Product price"
-            error={errors.price?.message}
-          />
-          <Input
-            name="discountPercentage"
-            id="discount"
-            register={register}
+          <FormInput
+            form={form}
             type="number"
-            placeholder="Discount percentage eg:10"
-            error={errors.discount?.message}
+            placeholder="Price"
+            name="price"
+            label="Price"
+            defaultValue={product?.price}
           />
-          <Input
-            name="images"
-            id="images"
-            register={register}
+          <FormInput
+            form={form}
+            type="number"
+            name="discountPercentage"
+            label="Discount Percentage (optional)"
+            defaultValue={product?.discountPercentage}
+          />
+          <FormInput
             type="file"
-            placeholder="Product images"
-            error={errors.images?.message}
-          /> */}
-          <Link href="/products">
-            <Button className=" bg-red-500">Cancel</Button>
+            form={form}
+            name="images"
+            label="Product Image"
+          />
+          <Link href="/products?page=1&limit=10&category=all&sort=asc">
+            <Button type="reset" className=" bg-red-500">
+              Cancel
+            </Button>
           </Link>
-          <div className="">
-            <Button>Update Product</Button>
-          </div>
+          <Button type="submit">Submit</Button>
         </form>
-      </div>
+      </Form>
     </div>
   );
-};
-
-export default EditProductForm;
+}

@@ -15,29 +15,15 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import IconDots from "@/assets/icons/IconDots";
 import { DropdownMenuDemo } from "../commons/DropDownMenu";
+import { useGetProducts } from "@/api/product/useGetProducts";
+import { SkeletonLoading } from "../commons/skeleton-loading";
+import useSetUrlQuery from "@/lib/useSetUrlQuery";
+import { Product } from "@/types/product";
 
-const ProductTable = () => {
-  const [products, setproducts] = useState<
-    {
-      title: string;
-      price: number;
-      category: string;
-      id: number;
-    }[]
-  >([]);
-  const getData = async () => {
-    const { data } = await axios.get("https://fakestoreapi.com/products");
-    setproducts(data);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+const ProductTable = ({ products }: { products: Product[] | undefined }) => {
   return (
-    <div className=" max-h-[70vh] overflow-auto scroll-m-1 scroll-smooth">
+    <div className=" h-[60vh] overflow-auto scroll-m-1 scroll-smooth">
       <Table className="">
         <TableHeader className=" bg-slate-200">
           <TableRow>
@@ -48,14 +34,14 @@ const ProductTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product) => {
+          {products?.map((product) => {
             return (
               <TableRow key={product.id}>
                 <TableCell>{product.title.slice(0, 20)}...</TableCell>
                 <TableCell className=" text-end">{product?.price}</TableCell>
                 <TableCell>{product?.category}</TableCell>
                 <TableCell>
-                  <DropdownMenuDemo />
+                  <DropdownMenuDemo id={product.id.toString()} />
                 </TableCell>
               </TableRow>
             );
