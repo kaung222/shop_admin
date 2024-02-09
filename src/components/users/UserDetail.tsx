@@ -14,7 +14,7 @@ const UserDetail = () => {
       <p>Register at{data.createdAt}</p>
       <div>
         Recent orders
-        {data.orders.map((order) => {
+        {data.orders.map((order: any) => {
           return (
             <div className="" key={order.id}>
               {order.id}
