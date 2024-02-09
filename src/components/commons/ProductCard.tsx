@@ -6,6 +6,7 @@ import { ConfirmDialog } from "./alert-dialog";
 import IconDelete from "@/assets/icons/IconDelete";
 import { useDeleteProduct } from "@/api/product/useDeleteProduct";
 import { toast } from "sonner";
+import Image from "next/image";
 
 type ProductCardProps = {
   product: Product;
@@ -29,9 +30,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
   return (
     <div className=" h-auto w-full p-5 rounded-xl shadow-sm hover:shadow-xl shadow-slate-500">
-      <img
+      <Image
         src={product.images[0]}
-        alt=""
+        alt="dad"
         className="w-full aspect-[5/6] object-contained"
       />
       <div className="flex items-center justify-between py-3">

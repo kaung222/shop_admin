@@ -1,4 +1,3 @@
-import useOuterClick from "@/utils/useOuterClick";
 import { useRef } from "react";
 import clsx from "clsx";
 import IconButton from "./IconButton";
@@ -11,7 +10,6 @@ type DrawerProps = {
 };
 const CustomDialog = ({ onClose, isOpen, children }: DrawerProps) => {
   const dialogRef = useRef(null);
-  useOuterClick(dialogRef, onClose);
   return (
     <div
       className={clsx(

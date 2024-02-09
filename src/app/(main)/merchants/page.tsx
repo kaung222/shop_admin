@@ -5,7 +5,7 @@ import UserFilterbar from "@/components/users/UserFilterBar";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const { getQuery } = useSetUrlQuery();
   const page = getQuery("page");
   const sort = getQuery("sort");
@@ -22,4 +22,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

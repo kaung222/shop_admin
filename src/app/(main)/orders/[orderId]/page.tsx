@@ -2,12 +2,12 @@
 import { useGetOrderDetail } from "@/api/orders/useGetOrderDetail";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { orderId } = useParams();
   const { data: order } = useGetOrderDetail(orderId as string);
   console.log(order);
 
-  return <div>Detail page</div>;
+  return <div>Detail Page</div>;
 };
 
-export default page;
+export default Page;

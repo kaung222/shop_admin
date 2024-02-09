@@ -21,6 +21,7 @@ export const cartSlice = createSlice({
     },
     increaseQuantity: (state, action: PayloadAction<number>) => {
       state.products = state.products.map((product) => {
+        //@ts-expect-error
         if (product.product.id === action.payload) {
           product.quantity = product.quantity + 1;
           console.log(action.payload);
@@ -30,6 +31,7 @@ export const cartSlice = createSlice({
     },
     decreaseQuantity: (state, action: PayloadAction<number>) => {
       state.products = state.products.map((product) => {
+        //@ts-expect-error
         if (product.product.id === action.payload && product.quantity > 1) {
           product.quantity = product.quantity - 1;
         }

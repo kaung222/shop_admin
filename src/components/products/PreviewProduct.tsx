@@ -12,6 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useAppSelector } from "@/store/hooks";
+import Image from "next/image";
 
 export function PreviewProduct() {
   const { imageUrls } = useAppSelector((state) => state.previewUrls);
@@ -29,7 +30,7 @@ export function PreviewProduct() {
           <div className="flex items-center h-20">
             {imageUrls.map((url) => {
               return (
-                <img
+                <Image
                   src={url}
                   alt="preview image"
                   key={url}

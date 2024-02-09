@@ -5,7 +5,7 @@ import OrderFilterbar from "@/components/order/OrderFilterbar";
 import OrderTable from "@/components/order/OrderTable";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
-const page = () => {
+const Page = () => {
   const { getQuery } = useSetUrlQuery();
   const page = getQuery("page");
   const sort = getQuery("sort");
@@ -26,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

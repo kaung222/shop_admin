@@ -7,7 +7,7 @@ import ProductList from "@/components/products/ProductList";
 import ProductTable from "@/components/products/ProductTable";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
-const page = () => {
+const Page = () => {
   const { getQuery } = useSetUrlQuery();
   const currentView = getQuery("view");
   const page = getQuery("page");
@@ -37,4 +37,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

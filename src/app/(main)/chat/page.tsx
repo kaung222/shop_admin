@@ -5,7 +5,7 @@ import FormInput from "@/components/commons/FormInput";
 import { InputBox } from "@/components/commons/Input";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
+import { cn, getItemFromLocalStorage } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Socket, io } from "socket.io-client";
@@ -19,12 +19,12 @@ const Page = () => {
   const [messages, setMessages] = useState<messageProps[]>([]);
   const [socket, setSocket] = useState<Socket>();
   const scrollRef = useRef(null);
-  const { id } = JSON.parse(localStorage.getItem("user")!);
+  const user = getItemFromLocalStorage("user");
   socket?.on("recieveMessage", (data: messageProps) => {
     setMessages([...messages, data]);
   });
   const handleSendMessage = async (values: any) => {
-    const payload = { ...values, senderId: id, isAcked: false };
+    const payload = { ...values, senderId: user.id, isAcked: false };
     const res = await apiClient.post("chat", payload);
     console.log(res);
   };
@@ -48,7 +48,10 @@ const Page = () => {
           return (
             <p
               key={index}
-              className={cn("p-2", message.senderId === id ? "text-end" : " ")}
+              className={cn(
+                "p-2",
+                message.senderId === user.id ? "text-end" : " "
+              )}
               ref={scrollRef}
             >
               {message.message}

@@ -1,9 +1,10 @@
 "use client";
 import { useGetSingleProduct } from "@/api/product/useGetSingleProduct";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const { productId } = useParams();
   const { data: product } = useGetSingleProduct(productId as string);
   console.log(product);
@@ -14,7 +15,7 @@ const page = () => {
         <div className="">
           {product?.images.map((image) => {
             return (
-              <img src={image} alt="" className=" w-[200px]" key={image} />
+              <Image src={image} alt="" className=" w-[200px]" key={image} />
             );
           })}
         </div>
@@ -30,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

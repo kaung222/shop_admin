@@ -4,7 +4,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
-const layout = (props: { children: React.ReactNode }) => {
+const Layout = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     const access_token =
       typeof window !== "undefined"
@@ -27,4 +27,4 @@ const layout = (props: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default Layout;
