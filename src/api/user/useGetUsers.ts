@@ -1,14 +1,9 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../apiClient";
 import { User } from "@/types/user";
-type GetUserProps = {
-  page: string;
-  limit: string;
-  search: string;
-  sort: string;
-  status: string;
-};
-type Users = {
+import useSetUrlQuery from "@/lib/useSetUrlQuery";
+type UsersRes = {
   users: User[];
   page: number;
   limit: number;
@@ -16,15 +11,19 @@ type Users = {
   total: number;
 };
 
-export const useGetUsers = (props: GetUserProps) => {
-  const { page, limit, search, sort, status } = props;
-  return useQuery<Users[], unknown, any>({
+export const useGetUsers = () => {
+  const { getQuery } = useSetUrlQuery();
+  const page = getQuery("page") || 1;
+  const sort = getQuery("sort") || "desc";
+  const search = getQuery("search") || "";
+  const limit = getQuery("limit") || 10;
+  const status = getQuery("status") || "all";
+  return useQuery<any, unknown, UsersRes>({
     queryKey: ["GetUsers", page, limit, search, sort, status],
     queryFn: async () => {
       return await apiClient
         .get("/users", {
           params: {
-            status,
             query: search,
             limit,
             page,

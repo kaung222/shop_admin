@@ -53,14 +53,14 @@ export function DropdownMenuDemo({ id }: { id: string }) {
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <Link href={`/products/edit/${id}`}>
+          {/* <Link href={`/products/edit/${id}`}>
             <DropdownMenuItem>
               Update
               <DropdownMenuShortcut>
                 <IconEdit className=" text-sm text-orange-500" />
               </DropdownMenuShortcut>
             </DropdownMenuItem>
-          </Link>
+          </Link> */}
           <ConfirmDialog
             title="Are you sure to delete the products?"
             description="this action can't be undone"

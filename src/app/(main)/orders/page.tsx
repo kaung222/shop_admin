@@ -6,13 +6,7 @@ import OrderTable from "@/components/order/OrderTable";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
 const Page = () => {
-  const { getQuery } = useSetUrlQuery();
-  const page = getQuery("page");
-  const sort = getQuery("sort");
-  const limit = getQuery("limit");
-  const status = getQuery("status");
-  const search = getQuery("search");
-  const { data } = useGetOrders({ limit, sort, page, status, search });
+  const { data } = useGetOrders();
 
   return (
     <div className="p-3">

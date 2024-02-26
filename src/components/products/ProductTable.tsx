@@ -20,6 +20,7 @@ import { useGetProducts } from "@/api/product/useGetProducts";
 import { SkeletonLoading } from "../commons/skeleton-loading";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 import { Product } from "@/types/product";
+import { truncateText } from "@/lib/utils";
 
 const ProductTable = ({ products }: { products: Product[] | undefined }) => {
   return (
@@ -28,6 +29,8 @@ const ProductTable = ({ products }: { products: Product[] | undefined }) => {
         <TableHeader className=" bg-slate-200">
           <TableRow>
             <TableHead className="font-medium">Title</TableHead>
+            <TableHead className="font-medium">Photo</TableHead>
+
             <TableHead className=" text-end">Price</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Actions</TableHead>
@@ -37,7 +40,14 @@ const ProductTable = ({ products }: { products: Product[] | undefined }) => {
           {products?.map((product) => {
             return (
               <TableRow key={product.id}>
-                <TableCell>{product.title.slice(0, 20)}...</TableCell>
+                <TableCell>{truncateText(product.title, 20)}</TableCell>
+                <TableCell>
+                  <img
+                    src={product.images[0]}
+                    alt="product iamge"
+                    className=" w-10 h-10"
+                  />
+                </TableCell>
                 <TableCell className=" text-end">{product?.price}</TableCell>
                 <TableCell>{product?.category}</TableCell>
                 <TableCell>

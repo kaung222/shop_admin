@@ -34,6 +34,8 @@ export function PreviewProduct() {
                   src={url}
                   alt="preview image"
                   key={url}
+                  width={300}
+                  height={300}
                   className=" object-contain overflow-hidden"
                 />
               );

@@ -26,12 +26,7 @@ const Page = () => {
   return (
     <div className="p-3">
       <ProductFilterbar />
-      {currentView !== "table" ? (
-        <ProductTable products={data?.products} />
-      ) : (
-        <ProductList products={data?.products} />
-      )}
-
+      <ProductTable products={data?.products} />
       <PaginationBar total={data?.total} pageCount={data?.lastPage || 0} />
     </div>
   );

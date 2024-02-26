@@ -5,16 +5,9 @@ import PaginationBar from "@/components/commons/Pagination";
 
 import UserFilterBar from "@/components/users/UserFilterBar";
 import UserTable from "@/components/users/UserTable";
-import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
 const Page = () => {
-  const { getQuery } = useSetUrlQuery();
-  const page = getQuery("page");
-  const sort = getQuery("sort");
-  const search = getQuery("search");
-  const limit = getQuery("limit");
-  const status = getQuery("status");
-  const { data } = useGetUsers({ page, search, sort, limit, status });
+  const { data } = useGetUsers();
 
   return (
     <div className="p-3">

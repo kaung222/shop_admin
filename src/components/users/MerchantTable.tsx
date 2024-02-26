@@ -10,22 +10,38 @@ import {
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { User } from "@/types/user";
+import { Merchant, User } from "@/types/user";
 import { ConfirmDialog } from "../commons/alert-dialog";
-import { useDeleteuser } from "@/api/user/useDeleteUser";
 import { toast } from "sonner";
+import { useDeleteMerchant } from "@/api/merchants/useDeleteMerchant";
+import { useUpdateStatusMerchant } from "@/api/merchants/useUpdateStatus";
 
-export default function MerchantTable({ users }: { users: User[] }) {
-  const { mutate, error } = useDeleteuser();
-  const handleDeleteUser = (id: string) => {
-    mutate(
+export default function MerchantTable({ users }: { users: Merchant[] }) {
+  const deleteMerchant = useDeleteMerchant();
+  const { mutate } = useUpdateStatusMerchant();
+  const handleDeleteMerchant = (id: string) => {
+    deleteMerchant.mutate(
       { id },
       {
         onSuccess() {
-          toast.success("User created successfully");
+          toast.success("Delete merchant successfully.");
         },
         onError() {
-          toast.error("Error deleting user!");
+          toast.error("Error deleting merchant!");
+        },
+      }
+    );
+  };
+  const handleApproved = ({ id, data }: { id: string; data: string }) => {
+    mutate(
+      { id, status: data },
+      {
+        onSuccess() {
+          toast.success("Approved successfully.");
+        },
+        onError(err) {
+          //@ts-expect-error
+          toast.error(err.response.data.message);
         },
       }
     );
@@ -47,9 +63,9 @@ export default function MerchantTable({ users }: { users: User[] }) {
           {users?.map((user) => (
             <TableRow key={user?.id}>
               <TableCell className="font-medium">
-                {" "}
                 <Link
-                  href={`users/detail/${user.id}`}
+                  prefetch
+                  href={`merchants/${user.id}`}
                   className="hover:underline hover:text-blue-500"
                 >
                   {user.email}
@@ -62,11 +78,26 @@ export default function MerchantTable({ users }: { users: User[] }) {
               </TableCell>
               <TableCell>{user.status}</TableCell>
               <TableCell className=" space-x-2">
-                <Button>
-                  {user.status === "restrict" ? "Unrestrict" : "Restrict"}
-                </Button>
+                {user.status === "pending" ? (
+                  <Button
+                    onClick={() =>
+                      handleApproved({ id: user.id, data: "approved" })
+                    }
+                  >
+                    Approve
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() =>
+                      handleApproved({ id: user.id, data: "pending" })
+                    }
+                  >
+                    Unapprove
+                  </Button>
+                )}
+
                 <ConfirmDialog
-                  onConfirm={() => handleDeleteUser(user.id)}
+                  onConfirm={() => handleDeleteMerchant(user.id)}
                   title="Are you sure to delete this user?"
                   description="This action can't be undone after deleting"
                 >

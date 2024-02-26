@@ -34,6 +34,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         src={product.images[0]}
         alt="dad"
         className="w-full aspect-[5/6] object-contained"
+        width={300}
+        height={300}
       />
       <div className="flex items-center justify-between py-3">
         <p>{product.title.slice(0, 10)}...</p>

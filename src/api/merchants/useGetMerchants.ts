@@ -1,13 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../apiClient";
+import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
-type GetMerchantProps = {
-  page: string;
-  limit: string;
-  search: string;
-  sort: string;
-  status: string;
-};
 export type MerchantRes = {
   users: { name: string; id: string; email: string }[];
   page: number;
@@ -16,8 +10,13 @@ export type MerchantRes = {
   total: number;
 };
 
-export const useGetMerchants = (props: GetMerchantProps) => {
-  const { page, limit, search, sort, status } = props;
+export const useGetMerchants = () => {
+  const { getQuery } = useSetUrlQuery();
+  const page = getQuery("page");
+  const sort = getQuery("sort");
+  const search = getQuery("search");
+  const limit = getQuery("limit");
+  const status = getQuery("status");
   return useQuery<MerchantRes, unknown, any>({
     queryKey: ["GetMerchants", page, limit, search, sort, status],
     queryFn: async () => {

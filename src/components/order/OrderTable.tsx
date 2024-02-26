@@ -15,11 +15,25 @@ import {
 import { Button } from "../ui/button";
 import { Order } from "@/types/order";
 import { useUpdateOrderStatus } from "@/api/orders/useUpdateOrderStatus";
+import { useDeleteOrder } from "@/api/orders/useDeleteOrder";
+import { toast } from "sonner";
+import { ConfirmDialog } from "../commons/alert-dialog";
 
 const OrderTable = ({ orders }: { orders: Order[] }) => {
   const { mutate } = useUpdateOrderStatus();
+  const deleteOrder = useDeleteOrder();
   const handleAcceptOrder = (id: string, status: string) => {
     mutate({ id, data: { status } });
+  };
+  const handleDeleteOrder = (id: string) => {
+    deleteOrder.mutate(
+      { id },
+      {
+        onSuccess() {
+          toast.success("Delete order successfully");
+        },
+      }
+    );
   };
   return (
     <div className="h-[70vh] overflow-auto scroll-m-1 scroll-smooth">
@@ -30,6 +44,7 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
             <TableHead>Customer Email</TableHead>
             <TableHead>Order Date</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Total</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -43,41 +58,26 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
                   {order.createdAt.slice(0, order.createdAt.indexOf("T"))}
                 </TableCell>
                 <TableCell>{order.status}</TableCell>
+                <TableCell>{order.total}</TableCell>
                 <TableCell className=" space-x-2">
-                  {order.status === "pending" ? (
-                    <div className=" space-x-2">
-                      <Button
-                        className=" bg-green-500"
-                        onClick={() => handleAcceptOrder(order.id, "accepted")}
-                      >
-                        Accept
-                      </Button>
-                      <Button
-                        className=" bg-orange-500"
-                        onClick={() => handleAcceptOrder(order.id, "pending")}
-                      >
-                        Message
-                      </Button>
-                      <Link href={`orders/${order.id}`}>
-                        <Button className=" bg-gray-500">Details</Button>
-                      </Link>
-                    </div>
-                  ) : (
-                    <div className=" space-x-2">
-                      <Button
-                        className=" bg-red-500"
-                        onClick={() => handleAcceptOrder(order.id, "pending")}
-                      >
-                        Reject
-                      </Button>
-                      <Button
-                        className=" bg-orange-500"
-                        onClick={() => handleAcceptOrder(order.id, "pending")}
-                      >
-                        Message
-                      </Button>
-                    </div>
-                  )}
+                  <div className=" space-x-2">
+                    <Button
+                      className=" bg-orange-500"
+                      onClick={() => handleAcceptOrder(order.id, "pending")}
+                    >
+                      Message
+                    </Button>
+                    <ConfirmDialog
+                      title="Are you sure to delete the order?"
+                      description="This action can't be undone"
+                      onConfirm={() => handleDeleteOrder(order.id)}
+                    >
+                      <Button className=" bg-red-500">Delete</Button>
+                    </ConfirmDialog>
+                    <Link href={`orders/${order.id}`}>
+                      <Button className=" bg-gray-500">Details</Button>
+                    </Link>
+                  </div>
                 </TableCell>
               </TableRow>
             );

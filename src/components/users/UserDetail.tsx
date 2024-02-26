@@ -9,12 +9,12 @@ const UserDetail = () => {
 
   return (
     <div className=" p-5">
-      <p>id:{data.id}</p>
-      <p>email: {data.email}</p>
-      <p>Register at{data.createdAt}</p>
+      <p>id:{data?.id}</p>
+      <p>email: {data?.email}</p>
+      <p>Register at{data?.createdAt}</p>
       <div>
         Recent orders
-        {data.orders.map((order: any) => {
+        {data?.orders?.map((order: any) => {
           return (
             <div className="" key={order.id}>
               {order.id}

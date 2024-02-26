@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetAdmins } from "@/api/admin/useGetAdmins";
+import AdminFilterbar from "@/components/users/AdminFilterBar";
 import AdminTable from "@/components/users/AdminTable";
 import UserFilterbar from "@/components/users/UserFilterBar";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
@@ -15,7 +16,7 @@ const Page = () => {
   const { data } = useGetAdmins({ page, search, sort, limit, status });
   return (
     <div className="p-5">
-      <UserFilterbar />
+      <AdminFilterbar />
       <AdminTable
         //@ts-expect-error
         users={data}

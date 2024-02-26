@@ -14,6 +14,7 @@ import { User } from "@/types/user";
 import { ConfirmDialog } from "../commons/alert-dialog";
 import { useDeleteuser } from "@/api/user/useDeleteUser";
 import { toast } from "sonner";
+import { apiClient } from "@/api/apiClient";
 
 export default function UserTable({ users }: { users: User[] | undefined }) {
   const { mutate, error } = useDeleteuser();
@@ -29,6 +30,10 @@ export default function UserTable({ users }: { users: User[] | undefined }) {
         },
       }
     );
+  };
+  const handleRestrictUser = async (id: string) => {
+    const { data } = await apiClient.post("users/restrict/" + id);
+    console.log(data);
   };
   return (
     <div className="h-[70vh] overflow-auto scroll-m-1 scroll-smooth">
@@ -62,8 +67,8 @@ export default function UserTable({ users }: { users: User[] | undefined }) {
               </TableCell>
               <TableCell>{user.status}</TableCell>
               <TableCell className=" space-x-2">
-                <Button>
-                  {user.status === "restrict" ? "Unrestrict" : "Restrict"}
+                <Button onClick={() => handleRestrictUser(user.id)}>
+                  {user.status === "restricted" ? "Unrestrict" : "Restrict"}
                 </Button>
                 <ConfirmDialog
                   onConfirm={() => handleDeleteUser(user.id)}

@@ -15,7 +15,14 @@ const Page = () => {
         <div className="">
           {product?.images.map((image) => {
             return (
-              <Image src={image} alt="" className=" w-[200px]" key={image} />
+              <Image
+                src={image}
+                alt=""
+                className=" w-[200px]"
+                width={200}
+                height={200}
+                key={image}
+              />
             );
           })}
         </div>

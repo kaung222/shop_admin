@@ -14,18 +14,19 @@ import { User } from "@/types/user";
 import { ConfirmDialog } from "../commons/alert-dialog";
 import { useDeleteuser } from "@/api/user/useDeleteUser";
 import { toast } from "sonner";
+import { useDeleteAdmin } from "@/api/admin/useDeleteAdmin";
 
 export default function AdminTable({ users }: { users: User[] }) {
-  const { mutate, error } = useDeleteuser();
+  const { mutate, error } = useDeleteAdmin();
   const handleDeleteUser = (id: string) => {
     mutate(
       { id },
       {
         onSuccess() {
-          toast.success("User created successfully");
+          toast.success("Deleted admin successfully.");
         },
         onError() {
-          toast.error("Error deleting user!");
+          toast.error(error?.message);
         },
       }
     );
@@ -63,7 +64,7 @@ export default function AdminTable({ users }: { users: User[] }) {
               <TableCell>{user.status}</TableCell>
               <TableCell className=" space-x-2">
                 <Button>
-                  {user.status === "restrict" ? "Unrestrict" : "Restrict"}
+                  {user.status === "restricted" ? "Unrestrict" : "Restrict"}
                 </Button>
                 <ConfirmDialog
                   onConfirm={() => handleDeleteUser(user.id)}

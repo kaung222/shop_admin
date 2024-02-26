@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { emptyUrls } from "@/store/slices/createObjUrl";
 import { useRouter } from "next/navigation";
 import { PreviewProduct } from "./PreviewProduct";
+import Link from "next/link";
 
 export default function CreateProductForm() {
   const form = useForm<z.infer<typeof CreateProductSchema>>({
@@ -116,9 +117,11 @@ export default function CreateProductForm() {
             />
           </div>
           <div className="p-5 space-x-5">
-            <Button type="reset" className=" bg-red-500">
-              Cancel
-            </Button>
+            <Link href="/products?page=1&limit=10&category=all&sort=asc">
+              <Button type="reset" className=" bg-red-500">
+                Cancel
+              </Button>
+            </Link>
             <PreviewProduct />
             <Button type="submit" className=" bg-blue-500">
               Submit

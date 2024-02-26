@@ -5,5 +5,15 @@ export type User = {
   email: string;
   password: string;
   role: string;
-  status: "active" | "restrict";
+  status: "active" | "restricted";
+};
+
+export type Merchant = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+  password: string;
+  role: string;
+  status: "approved" | "pending";
 };

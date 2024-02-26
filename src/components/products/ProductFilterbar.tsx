@@ -11,19 +11,18 @@ import { Button } from "../ui/button";
 import { categories } from "@/data/category.data";
 import useSetUrlQuery from "@/lib/useSetUrlQuery";
 import SearchBox from "../commons/search-box";
-import IconTable from "@/assets/icons/IconTable";
-import IconList from "@/assets/icons/IconList";
+
 const ProductFilterbar = () => {
   const { getQuery, setQuery } = useSetUrlQuery();
   const currentCategory = getQuery("category");
   const currentSort = getQuery("sort");
-  const currentView = getQuery("view");
+  // const currentView = getQuery("view");
   return (
     <div className="flex items-center justify-between space-x-10">
       <SearchBox />
       <div className="flex py-3 items-center space-x-6">
         <div className="">
-          {currentView === "table" ? (
+          {/* {currentView === "table" ? (
             <Button
               variant="ghost"
               onClick={() =>
@@ -45,7 +44,7 @@ const ProductFilterbar = () => {
             >
               <IconList />
             </Button>
-          )}
+          )} */}
         </div>
         <Select
           value={currentSort}
@@ -88,9 +87,9 @@ const ProductFilterbar = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Link href={"/products/create"}>
+        {/* <Link href={"/products/create"}>
           <Button className="w-[200px]">Create Product</Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

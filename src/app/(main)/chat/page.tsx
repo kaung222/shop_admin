@@ -1,79 +1,36 @@
 "use client";
 
-import { apiClient } from "@/api/apiClient";
-import FormInput from "@/components/commons/FormInput";
-import { InputBox } from "@/components/commons/Input";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { cn, getItemFromLocalStorage } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Socket, io } from "socket.io-client";
-type messageProps = {
-  senderId: string;
-  message: string;
-  isAcked: false;
-};
+import Link from "next/link";
+
+const chatlist = [
+  {
+    senderId: 1,
+    recepientId: 2,
+    roomId: 12345,
+  },
+  {
+    senderId: 2,
+    recepientId: 23,
+    roomId: 12346789,
+  },
+];
 const Page = () => {
-  const form = useForm();
-  const [messages, setMessages] = useState<messageProps[]>([]);
-  const [socket, setSocket] = useState<Socket>();
-  const scrollRef = useRef(null);
-  const user = getItemFromLocalStorage("user");
-  socket?.on("recieveMessage", (data: messageProps) => {
-    setMessages([...messages, data]);
-  });
-  const handleSendMessage = async (values: any) => {
-    const payload = { ...values, senderId: user.id, isAcked: false };
-    const res = await apiClient.post("chat", payload);
-    console.log(res);
-  };
-  console.log(messages);
-
-  useEffect(() => {
-    const socket = io("http://localhost:8080", { autoConnect: true });
-    setSocket(socket);
-  }, []);
-  useEffect(() => {
-    if (scrollRef.current) {
-      //@ts-expect-error
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
   return (
-    <div className=" p-5 w-[400px]">
-      <div className=" h-[400px] overflow-y-auto border border-slate-400">
-        {messages?.map((message, index) => {
-          return (
-            <p
-              key={index}
-              className={cn(
-                "p-2",
-                message.senderId === user.id ? "text-end" : " "
-              )}
-              ref={scrollRef}
-            >
-              {message.message}
-            </p>
-          );
-        })}
-      </div>
-
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleSendMessage)}
-          className="flex items-center justify-center"
-        >
-          <FormInput
-            name="message"
-            placeholder="Message"
-            type="text"
-            form={form}
-          />
-          <Button className="">Send</Button>
-        </form>
-      </Form>
+    <div className=" space-y-2 p-5">
+      <Link href={"/chat/create"}>create new</Link>
+      {chatlist.map((chat) => {
+        return (
+          <Link
+            href={`/chat/${chat.roomId}`}
+            key={chat.roomId}
+            className=" mt-3 block"
+          >
+            <div className="bg-slate-100 p-3 rounded-md w-full">
+              {chat.senderId} and {chat.recepientId} roomId : {chat.roomId}
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 };

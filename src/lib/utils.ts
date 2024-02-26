@@ -10,3 +10,17 @@ export const getItemFromLocalStorage = (key: string) => {
     return value;
   }
 };
+
+export const storeItemToLocalStorage = (key: string, value: any): boolean => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  }
+  return false;
+};
+
+export const truncateText = (text: string, limit: number) => {
+  const truncateText = text.slice(0, limit);
+  if (text.length > limit) return truncateText + " ...";
+  return truncateText;
+};
