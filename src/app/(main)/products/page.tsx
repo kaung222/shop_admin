@@ -3,26 +3,11 @@
 import { useGetProducts } from "@/api/product/useGetProducts";
 import PaginationBar from "@/components/commons/Pagination";
 import ProductFilterbar from "@/components/products/ProductFilterbar";
-import ProductList from "@/components/products/ProductList";
 import ProductTable from "@/components/products/ProductTable";
-import useSetUrlQuery from "@/lib/useSetUrlQuery";
 
 const Page = () => {
-  const { getQuery } = useSetUrlQuery();
-  const currentView = getQuery("view");
-  const page = getQuery("page");
-  const sort = getQuery("sort");
-  const search = getQuery("search");
-  const limit = getQuery("limit");
-  const category = getQuery("category");
-  const { data, isLoading } = useGetProducts({
-    page,
-    search,
-    sort,
-    limit,
-    category,
-  });
-
+  const { data, isLoading } = useGetProducts();
+  if (data?.products?.length === 0) return "No products to display";
   return (
     <div className="p-3">
       <ProductFilterbar />

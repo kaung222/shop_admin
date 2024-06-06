@@ -21,7 +21,7 @@ const SelectBox = (props: SelectProps) => {
     props;
   return (
     <div className="">
-      <label htmlFor="name">{label}</label>
+      <label>{label}</label>
       <Select
         onValueChange={(value) => register(value)}
         defaultValue={defaultValue}

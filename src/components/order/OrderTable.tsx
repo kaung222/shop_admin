@@ -18,6 +18,7 @@ import { useUpdateOrderStatus } from "@/api/orders/useUpdateOrderStatus";
 import { useDeleteOrder } from "@/api/orders/useDeleteOrder";
 import { toast } from "sonner";
 import { ConfirmDialog } from "../commons/alert-dialog";
+import { formatDate } from "@/lib/utils";
 
 const OrderTable = ({ orders }: { orders: Order[] }) => {
   const { mutate } = useUpdateOrderStatus();
@@ -54,8 +55,8 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
               <TableRow key={order.id}>
                 <TableCell>22</TableCell>
                 <TableCell>{order.user?.email ?? "Email is empty"} </TableCell>
-                <TableCell>
-                  {order.createdAt.slice(0, order.createdAt.indexOf("T"))}
+                <TableCell className=" text-green-500">
+                  {formatDate(order.createdAt)}
                 </TableCell>
                 <TableCell>{order.status}</TableCell>
                 <TableCell>{order.total}</TableCell>

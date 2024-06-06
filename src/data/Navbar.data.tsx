@@ -21,7 +21,7 @@ export const navbarLinks = [
   },
   {
     name: "Orders",
-    to: "/orders?page=1&limit=10&status=pending&sort=asc",
+    to: "/orders?page=1&limit=10&status=all&sort=asc",
     id: 3,
     icon: <IconDelivery />,
   },

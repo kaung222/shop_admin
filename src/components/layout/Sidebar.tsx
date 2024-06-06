@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { navbarLinks } from "@/data/Navbar.data";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import IconBack from "@/assets/icons/IconBack";
 import { useState } from "react";
@@ -10,6 +10,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   const path = pathname.split("/")[1];
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
 
   return (
     <div
@@ -42,7 +43,14 @@ const Sidebar = () => {
         >
           <IconBack />
         </Button>
-        <Button onClick={() => {}} className=" absolute bottom-2 w-[90%]">
+        <Button
+          onClick={() => {
+            localStorage.removeItem("user");
+            localStorage.removeItem("access_token");
+            router.push("/login");
+          }}
+          className=" absolute bottom-2 w-[90%]"
+        >
           Logout
         </Button>
       </div>

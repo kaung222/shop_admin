@@ -1,14 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../apiClient";
 import { Product } from "@/types/product";
-type GetProductProps = {
-  page: string;
-  limit: string;
-  search: string;
-  sort: string;
-  category: string;
-};
-type Products = {
+import useSetUrlQuery from "@/lib/useSetUrlQuery";
+type ProductsResponse = {
   products: Product[];
   page: number;
   limit: number;
@@ -16,9 +10,14 @@ type Products = {
   total: number;
 };
 
-export const useGetProducts = (props: GetProductProps) => {
-  const { page, limit, search, sort, category } = props;
-  return useQuery<Products>({
+export const useGetProducts = () => {
+  const { getQuery } = useSetUrlQuery();
+  const page = getQuery("page");
+  const sort = getQuery("sort");
+  const search = getQuery("search");
+  const limit = getQuery("limit");
+  const category = getQuery("category");
+  return useQuery<ProductsResponse>({
     queryKey: ["GetProducts", page, limit, search, sort, category],
     queryFn: async () => {
       return await apiClient

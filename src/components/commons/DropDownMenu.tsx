@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 export function DropdownMenuDemo({ id }: { id: string }) {
   const deleteProduct = useDeleteProduct();
-  const handleDeleteProduct = (id: string) => {
+  const handleDeleteProduct = () => {
     deleteProduct.mutate(
       { id },
       {
@@ -64,7 +64,7 @@ export function DropdownMenuDemo({ id }: { id: string }) {
           <ConfirmDialog
             title="Are you sure to delete the products?"
             description="this action can't be undone"
-            onConfirm={() => handleDeleteProduct(id)}
+            onConfirm={handleDeleteProduct}
           >
             <Button
               variant="ghost"
